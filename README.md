@@ -11,3 +11,5 @@
 💙 Credits for. [Bedimcode](https://youtu.be/ddaY0rHqMxM)
 
 ![preview img](/preview.png)
+
+GitHub Pages: https://pgbsm.github.io/lp-personal/
