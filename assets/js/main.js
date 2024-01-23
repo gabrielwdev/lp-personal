@@ -39,9 +39,35 @@ window.addEventListener('scroll', scrollHeader)
 
 
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+const sections = document.querySelectorAll('section[id]')
+    
+const scrollActive = () =>{
+  	const scrollDown = window.scrollY
+
+	sections.forEach(current =>{
+		const sectionHeight = current.offsetHeight,
+			  sectionTop = current.offsetTop - 58,
+			  sectionId = current.getAttribute('id'),
+			  sectionsClass = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+
+		if(scrollDown > sectionTop && scrollDown <= sectionTop + sectionHeight){
+			sectionsClass.classList.add('active-link')
+		}else{
+			sectionsClass.classList.remove('active-link')
+		}                                                    
+	})
+}
+window.addEventListener('scroll', scrollActive)
 
 
 /*=============== SHOW SCROLL UP ===============*/ 
+const scrollUp = () =>{
+	const scrollUp = document.getElementById('scroll-up')
+    // When the scroll is higher than 350 viewport height, add the show-scroll class to the a tag with the scrollup class
+	this.scrollY >= 350 ? scrollUp.classList.add('show-scroll')
+						: scrollUp.classList.remove('show-scroll')
+}
+window.addEventListener('scroll', scrollUp)
 
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
@@ -104,3 +130,46 @@ calculateForm.addEventListener('submit', calculateBmi)
 
 
 /*=============== EMAIL JS ===============*/
+const contactForm = document.getElementById('contact-form')
+      contactMessage = document.getElementById('contact-message')
+      contactUser = document.getElementById('contact-user')
+
+const sendEmail = (e) =>{
+    e.preventDefault()
+
+    // Check if the field has a value
+    if(contactUser.value === ''){
+        // Add and remove color
+        contactMessage.classList.remove('color-green')
+        contactMessage.classList.add('color-red')
+
+        // Show message
+        contactMessage.textContent = 'You must enter your email'
+    
+        // Remove message three seconds
+        setTimeout(() =>{
+            contactMessage.textContent = ''
+        }, 3000)
+    } else{
+        // serviceID - templateID - #form - publickey
+        emailjs.sendForm('service_jbcxrnf','template_ksmdajs','#contact-form','9czkmigFbFe8Ptmfy')
+            .then(() =>{
+                // Show message and add color
+                contactMessage.classList.add('color-green')
+                contactMessage.textContent = 'You registered successfully'
+
+                // Remove message after three seconds
+
+                setTimeout(() =>{
+                    contactMessage.textContent = ''
+                }, 3000)
+            }, (error) =>{
+                // Mail sending error
+                alert('OOPS! SOMETHING HAS FAILED...', error)
+            })
+        // To clear the input field
+        contactUser.value = ''
+    }
+}
+
+contactForm.addEventListener('submit', sendEmail)
